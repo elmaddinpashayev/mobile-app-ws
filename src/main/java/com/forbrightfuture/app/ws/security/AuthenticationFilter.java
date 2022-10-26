@@ -1,7 +1,10 @@
 package com.forbrightfuture.app.ws.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.forbrightfuture.app.ws.SpringApplicationContext;
+import com.forbrightfuture.app.ws.dto.UserDTO;
 import com.forbrightfuture.app.ws.model.request.UserLoginRequestModel;
+import com.forbrightfuture.app.ws.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -60,7 +63,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
                 .compact();
 
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        UserDTO userDTO = userService.getUser(userName);
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        res.addHeader("UserID", userDTO.getUserId());
 
     }
 }
