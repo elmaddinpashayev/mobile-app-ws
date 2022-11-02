@@ -18,18 +18,25 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.GET, SecurityConstants.SIGN_UP_URL).permitAll()
-                .anyRequest().authenticated().and().addFilter(new AuthenticationFilter(authenticationManager()));
+                .antMatchers(HttpMethod .GET, SecurityConstants.SIGN_UP_URL).permitAll()
+                .anyRequest().authenticated().and().addFilter(getAuthenticationFilter())
+                .addFilter(getAuthenticationFilter());
     }
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("admin").password("{noop}12345").roles("admin");
+
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
-
+    protected AuthenticationFilter getAuthenticationFilter() throws Exception {
+        final AuthenticationFilter filter = new AuthenticationFilter(authenticationManager());
+        filter.setFilterProcessesUrl("/users/login");
+        return filter;
+    }
 }
