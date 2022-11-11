@@ -21,7 +21,7 @@ public class UserController {
         return "get";
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) {
 
 
