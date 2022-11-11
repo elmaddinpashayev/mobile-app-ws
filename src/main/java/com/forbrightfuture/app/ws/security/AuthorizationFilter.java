@@ -41,7 +41,11 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
             token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
 
             String user = Jwts.parser()
+<<<<<<< HEAD
                     .setSigningKey( SecurityConstants.getTokenSecret())
+=======
+                    .setSigningKey( SecurityConstants.TOKEN_SECRET)
+>>>>>>> 73f59ddb0a6121b297c88fdbe4775652da78c652
                     .parseClaimsJws( token )
                     .getBody()
                     .getSubject();
