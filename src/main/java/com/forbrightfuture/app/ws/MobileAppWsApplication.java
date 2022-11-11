@@ -1,5 +1,6 @@
 package com.forbrightfuture.app.ws;
 
+import com.forbrightfuture.app.ws.security.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,11 @@ public class MobileAppWsApplication {
 	public SpringApplicationContext springApplicationContext()
 	{
 		return new SpringApplicationContext();
+	}
+
+	@Bean(name = "AppProperties")
+	public AppProperties getAppProperties(){
+		return  new AppProperties();
 	}
 
 }
